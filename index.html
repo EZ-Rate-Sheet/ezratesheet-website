@@ -370,6 +370,99 @@
     }
   }
 
+  /* Hero: copy beside video (stacks on mobile) */
+  .hero-split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: center;
+  }
+  .hero-split__copy .hero-subtitle {
+    margin-inline: auto;
+  }
+  .hero-split__media {
+    min-width: 0;
+  }
+  .hero-split__media .ai-hero-card {
+    margin: var(--space-6) 0 0;
+    max-width: none;
+    padding: var(--space-6);
+  }
+  .hero-split__media .ai-hero-title {
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    white-space: normal;
+  }
+  .hero-video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid rgba(232,221,233,0.2);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.2);
+    background: #1d1722;
+  }
+  .hero-video video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-video__sound {
+    position: absolute;
+    right: var(--space-3);
+    bottom: var(--space-3);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 6px 12px;
+    border: 1px solid rgba(232,221,233,0.35);
+    border-radius: var(--radius-full);
+    background: rgba(29,23,34,0.7);
+    backdrop-filter: blur(6px);
+    color: var(--color-text-inverse);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-interactive);
+  }
+  .hero-video__sound:hover {
+    background: rgba(29,23,34,0.9);
+    border-color: rgba(232,221,233,0.7);
+  }
+  .hero-video__sound svg {
+    width: 16px;
+    height: 16px;
+  }
+  .hero-video__sound .icon-sound,
+  .hero-video__sound[aria-pressed="true"] .icon-muted {
+    display: none;
+  }
+  .hero-video__sound[aria-pressed="true"] .icon-sound {
+    display: inline;
+  }
+  @media (min-width: 1024px) {
+    .hero-split {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: var(--space-12);
+      text-align: left;
+    }
+    .hero-split__copy .hero-title {
+      font-size: clamp(2rem, 1rem + 2vw, 3rem);
+    }
+    .hero-split__copy .hero-subtitle {
+      margin-inline: 0;
+    }
+    .hero-split__copy .hero-actions,
+    .hero-split__copy .trust-badges {
+      justify-content: flex-start;
+    }
+    .hero-split__copy .trust-badges {
+      flex-wrap: wrap;
+      gap: var(--space-3) var(--space-5);
+    }
+  }
+
   /* Pricing tabs */
   .pricing-tabs {
     display: inline-flex;
@@ -615,22 +708,14 @@
 
     <!-- ===== SECTION 1: HERO (AI-led) ===== -->
     <section class="hero section-dark">
-      <div class="container">
-        <div style="text-align:center; margin-bottom: var(--space-8);">
+      <div class="container hero-split">
+        <div class="hero-split__copy">
           <div class="section-label">The Private Lender Platform</div>
           <h1 class="hero-title" style="color:var(--color-text-inverse);">EZ Rate Sheet &mdash; the private lender platform for <em>rate sheets, pricing &amp; CRM.</em></h1>
           <p class="hero-subtitle" style="color:oklch(from var(--color-text-inverse) l c h / 0.82);">The AI gap is already costing private lenders deals. Your competitors are answering broker calls at 11pm with an AI voice agent and replying to Facebook DMs in 30 seconds. They&rsquo;re posting weekly market updates without writing a word. You&rsquo;re still drafting email replies between back-to-back closings.</p>
           <p class="hero-subtitle" style="color:oklch(from var(--color-text-inverse) l c h / 0.82); margin-top: var(--space-4);">EZ Rate Sheet + RiseHub gives you the same AI capabilities, and then some &mdash; built into the workflow you already use to price, qualify, and close deals.</p>
-        </div>
 
-        <!-- Hero card: Voice AI -->
-        <div class="ai-hero-card fade-in">
-          <div class="ai-hero-badge">Featured AI</div>
-          <h3 class="ai-hero-title">RiseAgent &mdash; Voice &amp; Chat</h3>
-          <p class="ai-hero-desc">Answers borrower and broker calls 24/7. Captures deal info, qualifies leads, books callbacks, and more. The agent that handles more, so you don&rsquo;t have to.</p>
-        </div>
-
-      <div class="hero-actions" style="justify-content:center;">
+      <div class="hero-actions">
         <a href="/app/register" class="btn btn-primary btn-lg">Start Your Free Trial</a>
         <a href="pages/pricing.html" class="btn btn-secondary-on-dark btn-lg">See Plans &amp; Pricing</a>
       </div>
@@ -648,6 +733,28 @@
           <span>10+ years building for lenders</span>
         </div>
       </div>
+        </div>
+
+        <div class="hero-split__media">
+          <!-- Hero video -->
+          <div class="hero-video">
+            <video id="hero-video" autoplay muted loop playsinline preload="metadata" poster="/assets/video/ez-rate-sheet-hero-poster.jpg" aria-label="EZ Rate Sheet product overview video">
+              <source src="/assets/video/ez-rate-sheet-hero.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="hero-video__sound" id="hero-video-sound" aria-pressed="false">
+              <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+              <svg class="icon-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              <span class="hero-video__sound-label">Play with sound</span>
+            </button>
+          </div>
+
+          <!-- Hero card: Voice AI -->
+          <div class="ai-hero-card fade-in">
+            <div class="ai-hero-badge">Featured AI</div>
+            <h3 class="ai-hero-title">RiseAgent &mdash; Voice &amp; Chat</h3>
+            <p class="ai-hero-desc">Answers borrower and broker calls 24/7. Captures deal info, qualifies leads, books callbacks, and more. The agent that handles more, so you don&rsquo;t have to.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1428,6 +1535,28 @@
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Hero video: sound toggle + respect reduced motion
+    (function () {
+      const video = document.getElementById('hero-video');
+      const btn = document.getElementById('hero-video-sound');
+      if (!video || !btn) return;
+      const label = btn.querySelector('.hero-video__sound-label');
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        video.removeAttribute('autoplay');
+        video.pause();
+      }
+      btn.addEventListener('click', () => {
+        const turnOn = video.muted;
+        video.muted = !turnOn;
+        if (turnOn) {
+          video.currentTime = 0;
+          video.play();
+        }
+        btn.setAttribute('aria-pressed', String(turnOn));
+        label.textContent = turnOn ? 'Mute' : 'Play with sound';
+      });
+    })();
 
   </script>
   <script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a6cf7c2f84104f943419707"></script>
